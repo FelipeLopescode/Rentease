@@ -215,6 +215,9 @@ h3 {
 /* TODO CSS-1: apresenta .stats-grid e .property-grid com CSS Grid. */
 .stats-grid,
 .property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
 }
 
 .stat-card,
@@ -243,10 +246,14 @@ h3 {
 /* TODO CSS-2: cria grelhas para os campos de filtros e do formulário. */
 .filters-grid,
 .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
 
 /* TODO CSS-3: faz os campos .field--wide ocuparem a largura necessária na grelha. */
 .field--wide {
+  grid-column: 1 / -1;
 }
 
 .field {
@@ -340,10 +347,23 @@ h3 {
 }
 
 /* TODO CSS-4: organiza os dados de cada cartão e destaca nome e valor. */
-.property-card__facts,
-.property-card__fact,
-.property-card__fact-label,
-.property-card__fact-value {
+.property-card__facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.property-card__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.property-card__fact-label{
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+.property-card__fact-value { 
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .badge {
@@ -357,8 +377,26 @@ h3 {
 
 /* TODO CSS-5: estiliza o footer que acrescentaste às três páginas. */
 .site-footer {
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
 }
 
 /* TODO CSS-6: acrescenta regras específicas para ecrãs até 700px. */
 @media (max-width: 700px) {
+  .filters-grid,
+  .form-grid,
+  .property-card__facts {
+    grid-template-columns: 1fr;
+  }
+
+  .nav {
+    align-items: stretch;
+  }
+
+  .nav__links {
+    width: 100%;
+  }
 }
