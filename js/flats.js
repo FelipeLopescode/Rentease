@@ -32,11 +32,17 @@ function getProcessedFlats() {
   const maxArea = readOptionalNumber(maxAreaFilter);
 
   if (minPrice !== null && maxPrice !== null && minPrice > maxPrice) {
-    return { flats: [], error: "O preço mínimo não pode ser superior ao preço máximo." };
+    return {
+      flats: [],
+      error: "O preço mínimo não pode ser superior ao preço máximo.",
+    };
   }
 
   if (minArea !== null && maxArea !== null && minArea > maxArea) {
-    return { flats: [], error: "A área mínima não pode ser superior à área máxima." };
+    return {
+      flats: [],
+      error: "A área mínima não pode ser superior à área máxima.",
+    };
   }
 
   /*
@@ -46,7 +52,21 @@ function getProcessedFlats() {
    * Os cinco filtros devem funcionar em conjunto.
    * As variáveis city, minPrice, maxPrice, minArea e maxArea já estão preparadas.
    */
-  const filteredFlats = allFlats;
+  const filteredFlats = allFlats.filter((flat) => {
+    const matchesCity = city === "" || flat.city.toLowerCase().includes(city);
+    const matchesMinPrice = minPrice === null || flat.rentPrice >= minPrice;
+    const matchesMaxPrice = maxPrice === null || flat.rentPrice <= maxPrice;
+    const matchesMinArea = minArea === null || flat.areaSize >= minArea;
+    const matchesMaxArea = maxArea === null || flat.areaSize <= maxArea;
+
+    return (
+      matchesCity &&
+      matchesMinPrice &&
+      matchesMaxPrice &&
+      matchesMinArea &&
+      matchesMaxArea
+    );
+  });
 
   // Esta cópia evita ordenar directamente o array carregado.
   const sortedFlats = [...filteredFlats];
@@ -56,6 +76,13 @@ function getProcessedFlats() {
    * Ordena sortedFlats de acordo com sortBy.value:
    * city, price ou area. Se o valor for none, conserva a ordem.
    */
+  if (sortBy.value === "city") {
+    sortedFlats.sort((a, b) => a.city.localeCompare(b.city));
+  } else if (sortBy.value === "price") {
+    sortedFlats.sort((a, b) => a.rentPrice - b.rentPrice);
+  } else if (sortBy.value === "area") {
+    sortedFlats.sort((a, b) => a.areaSize - b.areaSize);
+  }
 
   return { flats: sortedFlats, error: "" };
 }
@@ -109,6 +136,9 @@ function createFlatCard(flat) {
   facts.appendChild(createFact("Área", `${flat.areaSize} m²`));
 
   // TODO JS-FLATS-3: acrescenta ano, ar condicionado e disponibilidade.
+  facts.appendChild(createFact("Construído em", flat.yearBuilt));
+  facts.appendChild(createFact("Ar condicionado", flat.hasAC ? "Sim" : "Não"));
+  facts.appendChild(createFact("Disponível", formatDate(flat.dateAvailable)));
 
   const actions = document.createElement("div");
   actions.className = "property-card__actions";
@@ -168,8 +198,13 @@ function toggleFavourite(flatId) {
    * 3. Guarda o array completo.
    * 4. Volta a renderizar.
    */
+  const flats = loadFlats();
+  const updatedFlats = flats.map((flat) =>
+    flat.id === flatId ? { ...flat, isFavourite: !flat.isFavourite } : flat,
+  );
 
-  showFlatsFeedback(`Falta implementar a alteração do favorito ${flatId}.`, "warning");
+  saveFlats(updatedFlats);
+  renderFlats("Favorito atualizado com sucesso.");
 }
 
 function deleteFlat(flatId) {
@@ -180,8 +215,19 @@ function deleteFlat(flatId) {
    * 3. Guarda o novo array.
    * 4. Volta a renderizar.
    */
+  const confirmed = confirm(
+    "Tens a certeza que queres eliminar este apartamento?",
+  );
 
-  showFlatsFeedback(`Falta implementar a eliminação do apartamento ${flatId}.`, "warning");
+  if (!confirmed) {
+    return;
+  }
+
+  const flats = loadFlats();
+  const updatedFlats = flats.filter((flat) => flat.id !== flatId);
+
+  saveFlats(updatedFlats);
+  renderFlats("Apartamento eliminado com sucesso.");
 }
 
 filtersForm.addEventListener("input", () => renderFlats());

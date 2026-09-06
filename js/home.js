@@ -46,6 +46,8 @@ function createFavouriteCard(flat) {
   facts.appendChild(createFact("Área", `${flat.areaSize} m²`));
 
   // TODO JS-HOME-1: acrescenta a data de disponibilidade e o ar condicionado.
+  facts.appendChild(createFact("Disponível", formatDate(flat.dateAvailable)));
+  facts.appendChild(createFact("Ar condicionado", flat.hasAC ? "Sim" : "Não"));
 
   const removeButton = document.createElement("button");
   removeButton.className = "button button--secondary button--small";
@@ -66,7 +68,7 @@ function renderHome(actionMessage = "") {
   totalFlatsCount.textContent = flats.length;
 
   // TODO JS-HOME-2: usa filter() para obter apenas os favoritos.
-  const favouriteFlats = [];
+  const favouriteFlats = flats.filter((flat) => flat.isFavourite);
 
   favouriteFlatsCount.textContent = favouriteFlats.length;
   favouriteList.replaceChildren();
@@ -82,6 +84,9 @@ function renderHome(actionMessage = "") {
   }
 
   // TODO JS-HOME-3: percorre favouriteFlats e acrescenta cada cartão a favouriteList.
+  for (const flat of favouriteFlats) {
+    favouriteList.appendChild(createFavouriteCard(flat));
+  }
 }
 
 function removeFavourite(flatId) {
@@ -92,8 +97,12 @@ function removeFavourite(flatId) {
    * 3. Guarda o array actualizado.
    * 4. Volta a chamar renderHome() com uma mensagem de sucesso.
    */
+  const flats = loadFlats();
+  const updatedFlats = flats.map((flat) =>
+    flat.id === flatId ? { ...flat, isFavourite: false } : flat,
+  );
 
-  showHomeFeedback(`Falta implementar a remoção do favorito ${flatId}.`, "warning");
+  saveFlats(updatedFlats);
+  renderHome("Apartamento removido dos favoritos.");
 }
-
 renderHome();
