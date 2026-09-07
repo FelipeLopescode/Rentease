@@ -243,7 +243,6 @@ h3 {
   font-size: 2.4rem;
 }
 
-/* TODO CSS-2: cria grelhas para os campos de filtros e do formulário. */
 .filters-grid,
 .form-grid {
   display: grid;
@@ -251,7 +250,7 @@ h3 {
   gap: 1rem;
 }
 
-/* TODO CSS-3: faz os campos .field--wide ocuparem a largura necessária na grelha. */
+
 .field--wide {
   grid-column: 1 / -1;
 }
@@ -346,7 +345,7 @@ h3 {
   color: var(--color-muted);
 }
 
-/* TODO CSS-4: organiza os dados de cada cartão e destaca nome e valor. */
+
 .property-card__facts {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -375,7 +374,7 @@ h3 {
   font-weight: 900;
 }
 
-/* TODO CSS-5: estiliza o footer que acrescentaste às três páginas. */
+
 .site-footer {
   padding: 1.5rem;
   text-align: center;
@@ -384,7 +383,7 @@ h3 {
   color: var(--color-muted);
 }
 
-/* TODO CSS-6: acrescenta regras específicas para ecrãs até 700px. */
+
 @media (max-width: 700px) {
   .filters-grid,
   .form-grid,
