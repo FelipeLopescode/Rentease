@@ -83,20 +83,13 @@ function renderHome(actionMessage = "") {
     showHomeFeedback("");
   }
 
-  // TODO JS-HOME-3: percorre favouriteFlats e acrescenta cada cartão a favouriteList.
   for (const flat of favouriteFlats) {
     favouriteList.appendChild(createFavouriteCard(flat));
   }
-}
+};
 
 function removeFavourite(flatId) {
-  /*
-   * TODO JS-HOME-4
-   * 1. Carrega o array completo.
-   * 2. Usa map() para mudar apenas isFavourite do apartamento escolhido.
-   * 3. Guarda o array actualizado.
-   * 4. Volta a chamar renderHome() com uma mensagem de sucesso.
-   */
+  
   const flats = loadFlats();
   const updatedFlats = flats.map((flat) =>
     flat.id === flatId ? { ...flat, isFavourite: false } : flat,

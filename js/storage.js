@@ -7,18 +7,14 @@ function loadFlats() {
   storageMessage = "";
 
   try {
-    // 1. Lê STORAGE_KEY com localStorage.getItem()
     const raw = localStorage.getItem(STORAGE_KEY);
 
-    // 2. Se a chave não existir, devolve []
     if (raw === null) {
       return [];
     }
 
-    // 3. Converte a string com JSON.parse()
     const parsed = JSON.parse(raw);
 
-    // 4. Confirma que o resultado é um array
     if (!Array.isArray(parsed)) {
       storageMessage =
         "Os dados guardados estão corrompidos. A começar com uma lista vazia.";
@@ -27,7 +23,6 @@ function loadFlats() {
 
     return parsed;
   } catch (error) {
-    // 5. Se ocorrer um erro, define storageMessage e devolve []
     storageMessage = "Não foi possível ler os apartamentos guardados.";
     return [];
   }

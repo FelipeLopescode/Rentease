@@ -45,13 +45,6 @@ function getProcessedFlats() {
     };
   }
 
-  /*
-   * TODO JS-FLATS-1
-   * Usa filter() sobre allFlats.
-   * Um filtro vazio não deve excluir apartamentos.
-   * Os cinco filtros devem funcionar em conjunto.
-   * As variáveis city, minPrice, maxPrice, minArea e maxArea já estão preparadas.
-   */
   const filteredFlats = allFlats.filter((flat) => {
     const matchesCity = city === "" || flat.city.toLowerCase().includes(city);
     const matchesMinPrice = minPrice === null || flat.rentPrice >= minPrice;
@@ -68,14 +61,9 @@ function getProcessedFlats() {
     );
   });
 
-  // Esta cópia evita ordenar directamente o array carregado.
+
   const sortedFlats = [...filteredFlats];
 
-  /*
-   * TODO JS-FLATS-2
-   * Ordena sortedFlats de acordo com sortBy.value:
-   * city, price ou area. Se o valor for none, conserva a ordem.
-   */
   if (sortBy.value === "city") {
     sortedFlats.sort((a, b) => a.city.localeCompare(b.city));
   } else if (sortBy.value === "price") {
@@ -135,7 +123,7 @@ function createFlatCard(flat) {
   facts.appendChild(createFact("Renda", formatCurrency(flat.rentPrice)));
   facts.appendChild(createFact("Área", `${flat.areaSize} m²`));
 
-  // TODO JS-FLATS-3: acrescenta ano, ar condicionado e disponibilidade.
+ 
   facts.appendChild(createFact("Construído em", flat.yearBuilt));
   facts.appendChild(createFact("Ar condicionado", flat.hasAC ? "Sim" : "Não"));
   facts.appendChild(createFact("Disponível", formatDate(flat.dateAvailable)));
@@ -191,13 +179,7 @@ function renderFlats(actionMessage = "", actionType = "success") {
 }
 
 function toggleFavourite(flatId) {
-  /*
-   * TODO JS-FLATS-4
-   * 1. Carrega o array completo.
-   * 2. Alterna isFavourite apenas no apartamento com flatId.
-   * 3. Guarda o array completo.
-   * 4. Volta a renderizar.
-   */
+
   const flats = loadFlats();
   const updatedFlats = flats.map((flat) =>
     flat.id === flatId ? { ...flat, isFavourite: !flat.isFavourite } : flat,
@@ -208,13 +190,7 @@ function toggleFavourite(flatId) {
 }
 
 function deleteFlat(flatId) {
-  /*
-   * TODO JS-FLATS-5
-   * 1. Pede confirmação ao utilizador.
-   * 2. Usa filter() para criar um array sem o apartamento escolhido.
-   * 3. Guarda o novo array.
-   * 4. Volta a renderizar.
-   */
+
   const confirmed = confirm(
     "Tens a certeza que queres eliminar este apartamento?",
   );

@@ -41,11 +41,7 @@ function isValidDateText(dateText) {
     && date.getDate() === day;
 }
 
-/*
- * VALIDAÇÃO FORNECIDA
- * Esta função já lê e valida todos os campos.
- * Não precisas de a reescrever. Usa o objecto devolvido no evento submit.
- */
+
 function validateForm() {
   const city = newFlatForm.elements.city.value.trim();
   const streetName = newFlatForm.elements.streetName.value.trim();
@@ -149,24 +145,23 @@ newFlatForm.addEventListener("submit", (event) => {
     showFormFeedback("Corrige os campos assinalados antes de guardar.", "error");
     return;
   }
-  // 1. Carrega o array com loadFlats()
+
   const flats = loadFlats();
 
-  // 2. Cria newFlat com Date.now(), validationResult.data e isFavourite: false
+
   const newFlat = {
     id: Date.now(),
     ...validationResult.data,
     isFavourite: false
   };
 
-  // 3. Adiciona newFlat ao array
+  
   flats.push(newFlat);
 
-  // 4. Chama saveFlats(flats)
+
   const saved = saveFlats(flats);
 
-  // 5. Só se saveFlats devolver true: limpa o formulário, limpa os erros
-  //    e apresenta a mensagem de sucesso com o link para flats.html
+
   if (saved) {
     newFlatForm.reset();
     showValidationErrors({});
